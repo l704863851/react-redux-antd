@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from "react-router-redux";
-import movie from './movie'
+import * as douban from './douban'
 
 const RootReducer = combineReducers({
   routing: routerReducer,
-  movie
+  ...douban
 })
 
 export default RootReducer

@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
 import './index.css'
 import { connect } from 'react-redux'
-import { httpMovieList } from '../../action/movie'
+import { httpDoubanReleasedList } from '../../action/douban'
 
-class App extends Component {
+@connect(
+  (state, ownProps) => {
+    return {
+      doubanReleasedList: state.doubanReleasedList
+    }
+  },
+  (dispatch, ownProps) => {
+    return {
+      httpDoubanReleasedList: () => dispatch(httpDoubanReleasedList())
+    }
+  }
+)
+export default class App extends Component {
+  componentDidMount() {
+    this.props.httpDoubanReleasedList()
+  }
+
   render() {
-    console.log(this.props)
-    return (
-      <div>{JSON.stringify(this.props.movieList)}</div>
-    )
+    return <div>{JSON.stringify(this.props.doubanReleasedList)}</div>
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    movieList: state.movieList
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    httpMovieList: dispatch(httpMovieList())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
