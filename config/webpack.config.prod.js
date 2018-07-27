@@ -94,6 +94,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      '@': path.resolve(__dirname, "../src")
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -211,6 +212,25 @@ module.exports = {
               )
             ),
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            // .less 解析
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract({
+              fallback: "style-loader",
+              use: [
+                {
+                  loader: "css-loader",
+                  options: {
+                    modules: true,
+                    localIdentName: "[local]_[hash:base64:8]"
+                  }
+                },
+                "postcss-loader",
+                "less-loader"
+              ]
+            }),
+            include: path.resolve(__dirname, "src")
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
